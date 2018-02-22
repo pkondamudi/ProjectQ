@@ -263,7 +263,7 @@ class BasicRotationGate(BasicGate):
 
             [CLASSNAME]([ANGLE])
         """
-        return str(self.__class__.__name__) + "(" + str(self.angle) + ")"
+        return str(self.__class__.__name__) + " " + str(self.angle) + ","
 
     def tex_str(self):
         """
@@ -355,7 +355,7 @@ class BasicPhaseGate(BasicGate):
 
             [CLASSNAME]([ANGLE])
         """
-        return str(self.__class__.__name__) + "(" + str(self.angle) + ")"
+        return str(self.__class__.__name__) + " " + str(self.angle) + ","
 
     def tex_str(self):
         """

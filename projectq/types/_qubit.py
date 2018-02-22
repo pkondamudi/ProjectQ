@@ -219,7 +219,7 @@ class Qureg(list):
         Get string representation of a quantum register.
         """
         if len(self) == 0:
-            return "Qureg[]"
+            return "qubit[]"
 
         ids = [q.id for q in self[1:]]
         ids.append(None)  # Forces a flush on last loop iteration.
@@ -227,18 +227,26 @@ class Qureg(list):
         out_list = []
         start_id = self[0].id
         count = 1
+        bFlag = False;
         for qubit_id in ids:
             if qubit_id == start_id + count:
+                out_list.append('qubit{}'.format(qubit_id))
                 count += 1
                 continue
 
-            out_list.append('{}-{}'.format(start_id, start_id + count - 1)
+
+
+            out_list.append('qubit{}, qubit{}'.format(start_id, start_id + count - 1)
                             if count > 1
-                            else '{}'.format(start_id))
+                            else
+                                'qubit{}'.format(start_id))
             start_id = qubit_id
             count = 1
 
-        return "Qureg[{}]".format(', '.join(out_list))
+        if bFlag:
+            return "qubit{}".format(', '.join(out_list))
+        else:
+            return "{}".format(', '.join(out_list))
 
     @property
     def engine(self):

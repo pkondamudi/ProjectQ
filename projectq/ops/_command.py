@@ -308,10 +308,11 @@ class Command(object):
         if len(qubits) == 1:
             qstring = str(Qureg(qubits[0]))
         else:
-            qstring = "( "
+            qstring = ""
             for qreg in qubits:
                 qstring += str(Qureg(qreg))
                 qstring += ", "
-            qstring = qstring[:-2] + " )"
-        cstring = "C" * len(ctrlqubits)
-        return cstring + str(self.gate) + " | " + qstring
+            qstring = qstring[:-2] + " "
+        #cstring = "C" * len(ctrlqubits)
+        cstring = ""
+        return cstring + str(self.gate) + " " + qstring
