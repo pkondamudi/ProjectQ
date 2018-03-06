@@ -35,6 +35,21 @@ class LastEngineException(Exception):
                                   ).format(engine.__class__.__name__))
 
 
+class InvalidOutputFormat(Exception):
+    """
+    Exception thrown when the last engine tries to access the next one.
+    (Next engine does not exist)
+    The default implementation of isAvailable simply asks the next engine
+    whether the command is available. An engine which legally may be the last
+    engine, this behavior needs to be adapted (see BasicEngine.isAvailable).
+    """
+    def __init__(self, engine):
+        Exception.__init__(self, ("Invalid output format requested! Provide "
+                                  "PRQ - for ProjectQ format, INTLQS - For "
+                                  "Intel-QS QASMF format."
+                                  ).format(engine.__class__.__name__))
+
+
 class BasicEngine(object):
     """
     Basic compiler engine: All compiler engines are derived from this class.

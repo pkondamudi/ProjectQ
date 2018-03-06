@@ -25,18 +25,13 @@ from projectq.ops import FlushGate, Measure
 from projectq.meta import get_control_count
 
 
-class CommandPrinter(BasicEngine):
+class IntelQSPrinter(BasicEngine):
     """
     CommandPrinter is a compiler engine which prints commands to stdout prior
     to sending them on to the next compiler engine.
     """
-    formats = {
-        'PRQ' : 0,
-        'INTLQS' : 1
-    }
-
-    def __init__(self, rformat='PRQ', accept_input=True, default_measure=False,
-                 in_place=False, formats=formats):
+    def __init__(self, accept_input=True, default_measure=False,
+                 in_place=False):
         """
         Initialize a CommandPrinter.
 
@@ -54,7 +49,6 @@ class CommandPrinter(BasicEngine):
         self._accept_input = accept_input
         self._default_measure = default_measure
         self._in_place = in_place
-        self._rformat = formats.get(rformat, -1)
 
     def is_available(self, cmd):
         """
@@ -85,12 +79,7 @@ class CommandPrinter(BasicEngine):
         """
         if self.is_last_engine and cmd.gate == Measure:
             assert(get_control_count(cmd) == 0)
-            if self._rformat == 0:
-                print(cmd)
-            elif self._rformat == 1:
-                print(cmd.getIntelQASMF())
-            elif self._rformat == -1:
-                raise InvalidOutputFormat()
+            print(cmd)
             for qureg in cmd.qubits:
                 for qubit in qureg:
                     if self._accept_input:
@@ -107,10 +96,7 @@ class CommandPrinter(BasicEngine):
             if self._in_place:
                 sys.stdout.write("\0\r\t\x1b[K" + str(cmd) + "\r")
             else:
-                if self._rformat == 0:
-                    print(cmd)
-                elif self._rformat == 1:
-                    print(cmd.getIntelQASMF())
+                print(cmd)
 
     def receive(self, command_list):
         """
