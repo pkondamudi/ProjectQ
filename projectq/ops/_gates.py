@@ -264,7 +264,15 @@ class AllocateQubitGate(ClassicalInstructionGate):
     def get_inverse(self):
         return DeallocateQubitGate()
 
-Allocate = AllocateQubitGate()
+class AllocateQubitGateQS(ClassicalInstructionGate):
+    """ Qubit allocation gets class, command change for Intel-QS simulator """
+    def __str__(self):
+        return "qubit"
+
+    def get_inverse(self):
+        return DeallocateQubitGate()
+
+Allocate = AllocateQubitGateQS()
 
 
 class DeallocateQubitGate(FastForwardingGate):
